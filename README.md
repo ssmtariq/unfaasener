@@ -71,3 +71,35 @@ This work was supported by the Natural Sciences and Engineering Research Council
 We are also thankful for cloud resources made available to us by the Digital Research Alliance of Canada, the Google Cloud Research Credits program, and the AWS Cloud Credit for Research program.
 
 In addition to authors of our paper (Ghazal Sadeghian, Mohamed Elsakhawy, Mohanna Shahrad, Joe Hattori, and Mohammad Shahrad), we acknowledge Parshan Javanrood who played an important role in optimizing UnFaaSener's solver.
+
+
+## How to Run (Ubuntu)
+
+### Install Python 3.10
+```
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.10
+sudo apt install python3.10-venv python3.10-distutils
+curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.10
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+sudo update-alternatives --config python3
+python3 --version
+```
+
+### Install Julia 1.9.3
+```
+curl -OL https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
+tar -xvzf julia-1.9.3-linux-x86_64.tar.gz
+sudo mv julia-1.9.3 /opt/julia-1.9.3
+sudo ln -s /opt/julia-1.9.3/bin/julia /usr/local/bin/julia
+julia --version
+```
+
+### Additional Steps
+- Update projectid to `project-config.ini`
+- Update projectid in the `main.py` of the benchmark application you choose to run
+- Create datastore for the GCP project
+- Create a subscriber for the pub/sub topic with name `vmSubscriber1`
