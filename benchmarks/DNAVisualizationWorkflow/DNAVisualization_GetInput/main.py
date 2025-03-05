@@ -15,7 +15,7 @@ batch_settings = pubsub_v1.types.BatchSettings(
 )
 publisher = pubsub_v1.PublisherClient(batch_settings)
 # Replace *** with your Google Cloud Project ID
-PROJECT_ID = '***'
+PROJECT_ID = 'unfaasenerdemo'
 DSclient = datastore.Client()
 
 """
@@ -33,11 +33,13 @@ def handler(request):
         Response object using
         `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
     """
-    routingKey = DSclient.key('routingDecision', 'DNAVisualization')
+    routingKey = DSclient.key('routingDecision', 'DNAVisualizationWorkflow')
     routingEntity = DSclient.get(key=routingKey)
     active = routingEntity['active']
+    print(f"Active Routing: {active}")
     activeRouting = f'routing_{active}'
     routing = eval(routingEntity[activeRouting])
+    print(f"Routing eval: {routing}")
     finalRouting = ''
     for function in routing:
         functionArray = np.array(function)

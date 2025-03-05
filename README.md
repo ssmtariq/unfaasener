@@ -12,6 +12,41 @@ Our 2023 USENIX ATC paper provides in-depth insights into the design and evaluat
 * [Paper PDF](https://www.usenix.org/system/files/atc23-sadeghian.pdf)
 * [Presentation](https://www.youtube.com/watch?v=Yk9N5Ui6oaI)
 
+## Install Dependencies (Ubuntu)
+
+### Install GCP CLI
+```
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates gnupg curl
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+sudo apt-get update && sudo apt-get install google-cloud-cli
+gcloud init
+```
+
+### Install Python 3.10
+```
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.10
+sudo apt install python3.10-venv python3.10-distutils
+curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.10
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+sudo update-alternatives --config python3
+python3 --version
+```
+
+### Install Julia 1.9.3
+```
+curl -OL https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
+tar -xvzf julia-1.9.3-linux-x86_64.tar.gz
+sudo mv julia-1.9.3 /opt/julia-1.9.3
+sudo ln -s /opt/julia-1.9.3/bin/julia /usr/local/bin/julia
+julia --version
+```
+
 ## Setting Up and Building the Tool
 
 **Before running the setup scripts, review the following notes:**
@@ -72,34 +107,9 @@ We are also thankful for cloud resources made available to us by the Digital Res
 
 In addition to authors of our paper (Ghazal Sadeghian, Mohamed Elsakhawy, Mohanna Shahrad, Joe Hattori, and Mohammad Shahrad), we acknowledge Parshan Javanrood who played an important role in optimizing UnFaaSener's solver.
 
-
-## How to Run (Ubuntu)
-
-### Install Python 3.10
-```
-sudo apt update
-sudo apt install software-properties-common
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt update
-sudo apt install python3.10
-sudo apt install python3.10-venv python3.10-distutils
-curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.10
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
-sudo update-alternatives --config python3
-python3 --version
-```
-
-### Install Julia 1.9.3
-```
-curl -OL https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
-tar -xvzf julia-1.9.3-linux-x86_64.tar.gz
-sudo mv julia-1.9.3 /opt/julia-1.9.3
-sudo ln -s /opt/julia-1.9.3/bin/julia /usr/local/bin/julia
-julia --version
-```
-
 ### Additional Steps
 - Update projectid to `project-config.ini`
 - Update projectid in the `main.py` of the benchmark application you choose to run
 - Create datastore for the GCP project
 - Create a subscriber for the pub/sub topic with name `vmSubscriber1`
+- Ensure docker is running and has no permision issues to execute

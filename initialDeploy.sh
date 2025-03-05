@@ -9,12 +9,23 @@ mode="resolve"
 
 # making sure that by default are functions run on serverless
 # python3 scheduler/resetRoutingDecisions.py $workflow $hostcount
-docker container stop $(docker container ls -aq)
+if [[ $(docker container ls -q) ]]; then
+    docker container stop $(docker container ls -q)
+    echo "Stopped running containers."
+else
+    echo "No running containers to stop."
+fi
 # clean all privious metadata, logs, and caches for that workflow
 python3 scheduler/resetLastDecisions.py $workflow $hostcount $solvingMode
 
 # initialize Julia Solver
+if [ -p "./scheduler/juliaStdin" ]; then
+    rm "./scheduler/juliaStdin"
+fi
 mkfifo ./scheduler/juliaStdin
+if [ -p "./scheduler/juliaStdout" ]; then
+    rm "./scheduler/juliaStdout"
+fi
 mkfifo ./scheduler/juliaStdout
 julia scheduler/rpsMultiHostSolver.jl &
 

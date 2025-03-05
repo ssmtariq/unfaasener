@@ -37,6 +37,17 @@ class resetDecision:
         name = self.workflow
         routing_key = self.datastore_client.key(kind, name)
         self.routing = self.datastore_client.get(key=routing_key)
+
+        # If entity does not exist, create it
+        if self.routing is None:
+            print(f"Entity routingDecision/{self.workflow} does not exist. Creating it...")
+            self.routing = datastore.Entity(key=routing_key)
+            self.routing["active"] = "50"
+            for percent in [25, 50, 75, 95]:
+                self.routing[f"routing_{percent}"] = "[]"  # Initialize empty routing
+            self.datastore_client.put(self.routing)
+            print(f"Created entity routingDecision/{self.workflow}.")
+
         self.resetRouting()
         self.resetSavedTimestamps()
         self.resetResources()
