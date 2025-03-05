@@ -1,0 +1,15 @@
+LOCUS       SCU49845     5028 bp    DNA             PLN       21-JUN-1999
+DEFINITION  Saccharomyces cerevisiae TCP1-beta gene, partial cds, and Axl2p
+            (AXL2) and Rev7p (REV7) genes, complete cds.
+ACCESSION   U49845
+VERSION     U49845.1  GI:1293613
+SOURCE      Saccharomyces cerevisiae (baker's yeast)
+FEATURES             Location/Qualifiers
+     gene            1..206
+                     /gene="AXL2"
+     CDS             1..206
+                     /gene="AXL2"
+                     /translation="MSTNSLHKY"
+ORIGIN
+        1 atgactaatagtctcaataaataaatatttcaaaagaaattcatttccatgaata
+       61 gccttaaatttgagggttttccttgggtaattcactgcaataaaaatgtaaacaa

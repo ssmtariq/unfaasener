@@ -1,0 +1,4 @@
+function,reqID,start,finish,mergingPoint,host,duration
+DNAVisualization,req1,2025-02-20 00:00:00.000,2025-02-20 00:00:04.000,,s,4000
+DNAVisualization,req2,2025-02-20 00:01:00.000,2025-02-20 00:01:03.500,,s,3500
+DNAVisualization,req3,2025-02-20 00:02:00.000,2025-02-20 00:02:05.000,,s,5000

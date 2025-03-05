@@ -16,8 +16,16 @@ def handler(event, context):
         Response object using
         `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
     """
+
+    # Print full event and attributes
+    print("Received event:", event)
+    print("Event attributes:", event.get('attributes', {}))
+
     routing_data = event['attributes']['routing']
-    routing = routing_data[2]
+    print('routing_data:::::', routing_data)
+    print('req_id:::::', event['attributes']['reqID'])
+    print('data::: ', json.loads(base64.b64decode(event['data']).decode('utf-8')))
+    # routing = routing_data[2]
     req_id = event['attributes']['reqID']
 
     data = json.loads(base64.b64decode(event['data']).decode('utf-8'))

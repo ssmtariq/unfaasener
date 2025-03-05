@@ -138,7 +138,7 @@ class CIScheduler:
 
     def resolveOffloadingSolutions(self):
         x = Estimator(self.workflow)
-        invocationRate = InvocationRate(self.workflow)
+        # invocationRate = InvocationRate(self.workflow)
         # self.rates = invocationRate.getRPS()
         x.getCost()
         x.getPubSubMessageSize()
@@ -179,7 +179,8 @@ class CIScheduler:
         toleranceWindow = int(self.rankerConfig["toleranceWindow"])
         logging.info("Going to resolve!!!")
         logging.info(str(datetime.datetime.now()))
-        rates = invocationRate.getRPS()
+        # rates = invocationRate.getRPS()
+        rates = { 25: 3.5, 50: 5.0, 75: 6.5, 95: 7.5 }
         decisions = []
         prevDecision = None
         for percent in rates.keys():
@@ -306,7 +307,7 @@ if __name__ == "__main__":
     try:
         solver = CIScheduler(triggerType)
     except:
-        logging.info("Scheduler failed to run!")
+        logging.exception("Scheduler failed to run!")
         print("ERROR: Scheduler failed to run!")
     os.remove(str(Path(os.path.dirname(os.path.abspath(__file__)))) + "/lock.txt")
     if (

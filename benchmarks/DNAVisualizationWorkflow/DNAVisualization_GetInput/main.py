@@ -36,10 +36,8 @@ def handler(request):
     routingKey = DSclient.key('routingDecision', 'DNAVisualizationWorkflow')
     routingEntity = DSclient.get(key=routingKey)
     active = routingEntity['active']
-    print(f"Active Routing: {active}")
     activeRouting = f'routing_{active}'
     routing = eval(routingEntity[activeRouting])
-    print(f"Routing eval: {routing}")
     finalRouting = ''
     for function in routing:
         functionArray = np.array(function)
@@ -77,10 +75,15 @@ def handler(request):
     routing = finalRouting[1]
     reqID = uuid.uuid4().hex
 
+    print("finalRouting[1]: ",finalRouting[1])
+    print("rounting: ", routing)
+    print("finalRouting.encode('utf-8'): ", finalRouting.encode('utf-8'))
+
     next_fn = 'DNAVisualization_Visualize'
     # 0 for serverless, 1 for VM
     if routing == '0':
         topic_path = publisher.topic_path(PROJECT_ID, next_fn)
+        print("Topic:", topic_path)
         publish_future = publisher.publish(
             topic_path,
             data=message_bytes,
@@ -93,6 +96,7 @@ def handler(request):
     else:
         vmTopic = f'vmTopic{ord(routing) - 64}'
         topic_path = publisher.topic_path(PROJECT_ID, vmTopic)
+        print("Topic:", topic_path)
         publish_future = publisher.publish(
             topic_path,
             data=message_bytes,
@@ -103,6 +107,17 @@ def handler(request):
             invokedFunction=next_fn,
             routing=finalRouting.encode('utf-8'),
         )
+
+    print("📢 Publishing message to Pub/Sub...")
+    print("Message:", message_json)
+    print("Attributes:", {
+        "reqID": str(reqID),
+        "publishTime": str(datetime.datetime.utcnow()),
+        "identifier": msgID,
+        "msgSize": str(getsizeof(gen_file_name)),
+        "routing": finalRouting.encode('utf-8'),
+    })
+
 
     publish_future.result()
     executionID = request.headers['Function-Execution-Id']
